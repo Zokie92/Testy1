@@ -25,7 +25,7 @@ services:
       - NET_ADMIN
       - SYS_ADMIN
     environment:
-      - TS_AUTH_KEY=tskey-tskey-auth-kecRVt7TgY11CNTRL-bNCNJhRbzPieEZaLqUisPiSFW8YRyS2L  # Skapa auth key på tailscale.com/admin
+      - TS_AUTH_KEY=tskey-tskey-auth-k5CTz3YNW611CNTRL-CPQKJnYT3qc3nsNXZDAwpcCizPNB2Brs  # Skapa auth key på tailscale.com/admin
     volumes:
       - tailscale-var:/var/lib/tailscale
     networks:
