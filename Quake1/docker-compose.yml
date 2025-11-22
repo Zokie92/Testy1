@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   quake_server:
     image: moisesber/quaken:latest
@@ -8,12 +6,10 @@ services:
     ports:
       - "26000:26000/udp"
     volumes:
-      - ./quake_data:/nquakesv/id1
-      - ./quake_data:/nquakesv/id1
+      - ./quake_data/id1:/nquakesv/id1
       - ./quake_data/maps:/nquakesv/modules
       - ./quake_data/mods:/nquakesv/mods
       - ./quake_data/logs:/nquakesv/logs
-      - ./quake_data/autoexec.cfg:/nquakesv/autoexec.cfg
     restart: unless-stopped
     networks:
       - quake_net
