@@ -28,6 +28,7 @@ services:
       - ./quake_data:/nquakesv/id1
       - ./quake_data/maps:/nquakesv/modules
       - ./server.cfg:/nquakesv/id1/server.cfg
+      - ./autoexec.cfg:/nquakesv/id1/autoexec.cfg
     restart: unless-stopped
 
 volumes:
