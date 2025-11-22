@@ -1,0 +1,48 @@
+
+
+services:
+  quake_server:
+    image: moisesber/quaken:latest
+    platform: linux/amd64
+    container_name: quake_server
+    ports:
+      - "26000:26000/udp"
+    volumes:
+      - ./quake_data:/nquakesv/id1     # Mounta din id1 mapp till det som imagen förväntar sig
+      - ./quake_data/maps:/nquakesv/modules
+      - ./server.cfg:/nquakesv/id1/server.cfg
+    environment:
+      - GAME_DIR=id1                   # Exempel, beroende på image‑specifikation
+      - CONFIG_FILE=server.cfg
+      - BIND_IP=10.13.13.1
+    restart: unless-stopped
+    networks:
+      - wg_network
+
+  wireguard:
+    image: linuxserver/wireguard
+    container_name: wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Stockholm
+      - SERVERURL=81.235.254.231        # Din offentliga IP eller DDNS-domän
+      - SERVERPORT=51820
+      - PEERS=10
+      - PEERDNS=1.1.1.1
+    volumes:
+      - ./wg-config:/config
+    ports:
+      - "51820:51820/udp"
+    networks:
+      - wg_network
+    restart: unless-stopped
+
+networks:
+  default:
+    driver: bridge
+  wg_network:
+    driver: bridge  
