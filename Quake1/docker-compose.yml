@@ -1,35 +1,20 @@
-version: '3.9'
-
 services:
-  tailscale:
-    image: tailscale/tailscale:latest
-    container_name: tailscale
-    network_mode: "host"
-    cap_add:
-      - NET_ADMIN
-      - SYS_ADMIN
-    environment:
-      - TS_AUTH_KEY=tskey-tskey-auth-k5CTz3YNW611CNTRL-CPQKJnYT3qc3nsNXZDAwpcCizPNB2Brs
-      - TS_STATE_DIR=/var/lib/tailscale
-      - TS_EXTRA_ARGS=--accept-dns=false
-    volumes:
-      - tailscale-var:/var/lib/tailscale
-    restart: unless-stopped
-
   quake_server:
     image: moisesber/quaken:latest
-    container_name: quake_server_tailscale
-    platform: linux/amd64
-    network_mode: "host"
-    environment:
-      - GAME_DIR=id1
-      - CONFIG_FILE=server.cfg
+    container_name: quake_server
+    ports:
+      - "26000:26000/udp"
     volumes:
       - ./quake_data:/nquakesv/id1
       - ./quake_data/maps:/nquakesv/modules
       - ./server.cfg:/nquakesv/id1/server.cfg
-      - ./autoexec.cfg:/nquakesv/id1/autoexec.cfg
+    environment:
+      - GAME_DIR=id1
+      - CONFIG_FILE=server.cfg
+    networks:
+      - quake_network
     restart: unless-stopped
 
-volumes:
-  tailscale-var:
+networks:
+  quake_network:
+    driver: bridge
