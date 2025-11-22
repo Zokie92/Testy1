@@ -1,20 +1,40 @@
+version: '3.9'
+
 services:
   quake_server:
     image: moisesber/quaken:latest
+    platform: linux/amd64
     container_name: quake_server
     ports:
       - "26000:26000/udp"
     volumes:
       - ./quake_data:/nquakesv/id1
-      - ./quake_data/maps:/nquakesv/modules
-      - ./server.cfg:/nquakesv/id1/server.cfg
-    environment:
-      - GAME_DIR=id1
-      - CONFIG_FILE=server.cfg
-    networks:
-      - quake_network
     restart: unless-stopped
+    networks:
+      - quake_net
+
+  web_dashboard:
+    image: nginx:alpine
+    container_name: quake_dashboard
+    ports:
+      - "8080:80"
+    volumes:
+      - ./quake_data/logs:/usr/share/nginx/html:ro
+    restart: unless-stopped
+    networks:
+      - quake_net
+
+  backup:
+    image: alpine:latest
+    container_name: quake_backup
+    command: sh -c "while true; do cp -r /quake_data /backup/quake_data_$(date +%F_%H%M%S); sleep 3600; done"
+    volumes:
+      - ./quake_data:/quake_data
+      - ./backups:/backup
+    restart: unless-stopped
+    networks:
+      - quake_net
 
 networks:
-  quake_network:
+  quake_net:
     driver: bridge
