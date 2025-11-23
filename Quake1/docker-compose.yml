@@ -1,4 +1,29 @@
+version: '3.9'
+
 services:
+  wireguard:
+    image: linuxserver/wireguard
+    container_name: wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Stockholm
+      - SERVERURL=[2a09:bac3:53c5:28c::41:11a]   # <-- DIN PUBLIKA IP, ändra vid behov
+      - SERVERPORT=51820
+      - PEERS=7
+      - PEERDNS=1.1.1.1
+    volumes:
+      - ./wg-config:/config
+      - /lib/modules:/lib/modules
+    ports:
+      - "51820:51820/udp"
+    restart: unless-stopped
+    networks:
+      - quake_net
+
   quake_server:
     image: moisesber/quaken:latest
     platform: linux/amd64
