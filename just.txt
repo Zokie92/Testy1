@@ -1,0 +1,7 @@
+External server address: [2a09:bac3:53c5:28c::41:11a]
+External server port: 51820
+
+Den här porten måste vara korrekt vidarebefordrad om du är bakom en router.
+
+	4.	Intern subnet: 10.13.13.0 – det är nätverket som VPN-klienterna kommer få adresser i.
+	5.	Peer-konfigurationer – 7 peers (klienter) har genererats automatiskt med QR-koder för enkel import i t.ex. mobilappen WireGuard.
