@@ -27,7 +27,7 @@ services:
   quake_server:
     image: moisesber/quaken:latest
     platform: linux/amd64
-    container_name: quake_server
+    container_name: Kabelz_quake_server
     ports:
       - "26000:26000/udp"
     volumes:
